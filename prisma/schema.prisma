@@ -23,7 +23,7 @@ model Course {
   isPublished Boolean @default(false)
 
   categoryId String?
-  category Categary? @relation(fields: [categoryId], references: [id])
+  category Category? @relation(fields: [categoryId], references: [id])
 
   attachments Attachment[]
 
@@ -33,7 +33,7 @@ model Course {
   @@index([categoryId])
 }
 
-model Categary {
+model Category {
   id String @id @default(uuid())
   name String @unique()
   courses Course[]
