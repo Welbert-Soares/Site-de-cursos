@@ -25,7 +25,7 @@ interface ComboboxProps {
 };
 
 export const Combobox = ({ 
-        options = [],
+        options,
         value,
         onChange
     }: ComboboxProps) => {

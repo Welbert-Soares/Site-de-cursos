@@ -19,24 +19,19 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
-import { Combobox } from "@/components/ui/combobox";
+import { Input } from "@/components/ui/input";
+import { formatPrice } from "@/lib/format";
 
-interface CategoryFormProps {
+interface PriceFormProps {
     initialData: Course;
     courseId: string;
-    options: { label: string; value: string }[];
 }
 
 const formSchema = z.object({
-    categoryId: z.string().min(1),
+    price: z.coerce.number(),
 });
 
-export const CategoryForm = ({
-    initialData,
-    courseId,
-    options,
-}: CategoryFormProps) => {
+export const PriceForm = ({ initialData, courseId }: PriceFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const toggleEdit = () => setIsEditing((current) => !current);
@@ -46,7 +41,7 @@ export const CategoryForm = ({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            categoryId: initialData?.categoryId || "",
+            price: initialData?.price || undefined,
         },
     });
 
@@ -59,37 +54,35 @@ export const CategoryForm = ({
             toggleEdit();
             router.refresh();
         } catch (error) {
+            
             toast.error("Ocorreu um erro ao salvar o título do curso.");
         }
     };
 
-    const selectedOption = options.find(
-        (option) => option.value === initialData.categoryId
-    );
-
     return (
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
-                Categoria do Curso
+                Preço do Curso
                 <Button onClick={toggleEdit} variant="ghost">
                     {isEditing ? (
                         <>Cancelar</>
                     ) : (
                         <>
                             <Pencil className="h-4 w-4 mr-2" />
-                            Editar Categoria
+                            Editar Preço
                         </>
                     )}
                 </Button>
             </div>
             {!isEditing && (
-                <p
-                    className={cn(
-                        "text-sm mt-2",
-                        !initialData.categoryId && "text-slate-500 italic"
-                    )}
-                >
-                    {selectedOption?.label || "Sem categoria."}
+                <p className={cn(
+                    "text-sm mt-2",
+                    !initialData.price && "text-slate-500 italic"
+                )}>
+                    {initialData.price
+                        ? formatPrice(initialData.price)
+                        : "Preço não definido"
+                    }
                 </p>
             )}
             {isEditing && (
@@ -98,16 +91,18 @@ export const CategoryForm = ({
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="space-y-4 mt-4"
                     >
-                        <FormField
+                        <FormField 
                             control={form.control}
-                            name="categoryId"
-                            render={({ field }) => (
+                            name="price"
+                            render={({field}) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Combobox
-                                            options={options}
-                                            value={field.value}
-                                            onChange={field.onChange}
+                                        <Input
+                                            type="number"
+                                            step={0.01}
+                                            disabled={isSubmitting}
+                                            placeholder="Digite o preço do curso"
+                                            {...field}
                                         />
                                     </FormControl>
                                     <FormMessage />
