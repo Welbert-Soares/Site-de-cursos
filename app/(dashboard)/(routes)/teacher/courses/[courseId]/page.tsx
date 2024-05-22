@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import {
     CircleDollarSign,
@@ -19,6 +19,14 @@ import { AttachmentForm } from "./_components/attachment-form";
 import { ChaptersForm } from "./_components/chapters-form";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
+
+    const user = currentUser();
+    console.log(user);
+    
+
+    if (!user) {
+        return redirect("/");
+    }
     // const { userId } = auth();
 
     // if (!userId) {
