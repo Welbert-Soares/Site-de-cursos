@@ -19,23 +19,16 @@ import { AttachmentForm } from "./_components/attachment-form";
 import { ChaptersForm } from "./_components/chapters-form";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
+    const { userId } = auth();
 
-    const user = currentUser();
-    console.log(user);
-    
-
-    if (!user) {
+    if (!userId) {
         return redirect("/");
     }
-    // const { userId } = auth();
-
-    // if (!userId) {
-    //     return redirect("/");
-    // }
 
     const course = await db.course.findUnique({
         where: {
             id: params.courseId,
+            userId
         },
         include: {
             chapters: {
