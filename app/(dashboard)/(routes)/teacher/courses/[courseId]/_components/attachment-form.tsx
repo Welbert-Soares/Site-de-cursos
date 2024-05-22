@@ -2,13 +2,12 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { ImageIcon, Pencil, PlusCircle } from "lucide-react";
+import { File, ImageIcon, Loader2, Pencil, PlusCircle, X } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Attachment, Course } from "@prisma/client";
 import Image from "next/image";
-
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
@@ -22,8 +21,12 @@ const formSchema = z.object({
     url: z.string().min(1),
 });
 
-export const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) => {
+export const AttachmentForm = ({
+    initialData,
+    courseId,
+}: AttachmentFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
 
     const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -36,26 +39,35 @@ export const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) =
             toggleEdit();
             router.refresh();
         } catch (error) {
-            
             toast.error("Ocorreu um erro ao salvar o título do curso.");
         }
     };
 
+    const onDelete = async (id: string) => {
+        try {
+            setDeletingId(id);
+            await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
+            toast.success("Arquivo deletado.");
+            router.refresh();
+        } catch {
+            toast.error("Ocorreu um erro ao deletar o arquivo.")
+        } finally {
+            setDeletingId(null);
+        }
+    }
+
     return (
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
-                    Arquivos do Curso
+                Arquivos do Curso
                 <Button onClick={toggleEdit} variant="ghost">
-                    {isEditing && (
-                        <>Cancelar</>
-                    )}
+                    {isEditing && <>Cancelar</>}
                     {!isEditing && (
                         <>
                             <PlusCircle className="h-4 w-4 mr-2" />
                             Adicione uma Arquivo
                         </>
                     )}
-                    
                 </Button>
             </div>
             {!isEditing && (
@@ -65,20 +77,49 @@ export const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) =
                             Nenhum arquivo adicionado.
                         </p>
                     )}
+                    {initialData.attachments.length > 0 && (
+                        <div className="space-y-2">
+                            {initialData.attachments.map((attachment) => (
+                                <div 
+                                    key={attachment.id}
+                                    className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"   
+                                >
+                                    <File className="h-4 w-4 mr-2 flex-shrink-0" />
+                                    <p className="text-sx line-clamp-1">
+                                        {attachment.name}
+                                    </p>
+                                    {deletingId === attachment.id && (
+                                        <div>
+                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                        </div>
+                                    )}
+                                    {deletingId !== attachment.id && (
+                                        <button
+                                        onClick={() => onDelete(attachment.id)}
+                                            className="ml-auto hover:opacity-75 transition" 
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </>
             )}
             {isEditing && (
                 <div>
-                    <FileUpload 
+                    <FileUpload
                         endpoint="courseAttachment"
                         onChange={(url) => {
                             if (url) {
-                                onSubmit({ url: url});
+                                onSubmit({ url: url });
                             }
                         }}
                     />
                     <div className="text-xs text-muted-foreground mt-4">
-                        Adicione tudo o que seus alunos precisam para concluir o curso.
+                        Adicione tudo o que seus alunos precisam para concluir o
+                        curso.
                     </div>
                 </div>
             )}
