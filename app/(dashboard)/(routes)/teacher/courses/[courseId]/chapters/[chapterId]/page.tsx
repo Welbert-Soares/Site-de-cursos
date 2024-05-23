@@ -5,6 +5,7 @@ import { ArrowLeft, LayoutDashboard } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { IconBadge } from "@/components/icon-badge";
+import { ChapterTitleForm } from "./_componentes/chapter-title-form";
 
 const ChapterIdPage = async ({
     params,
@@ -74,7 +75,11 @@ const ChapterIdPage = async ({
                             Personalize seu capítulo
                             </h2>
                         </div>
-                        {/* chaptertitleform */}
+                        <ChapterTitleForm 
+                            initialData={chapter}
+                            courseId={params.courseId}
+                            chapterId={params.chapterId}
+                        />
                     </div>
                 </div>
             </div>

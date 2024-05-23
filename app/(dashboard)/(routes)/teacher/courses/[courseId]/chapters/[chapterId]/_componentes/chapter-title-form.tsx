@@ -31,7 +31,11 @@ const formSchema = z.object({
     title: z.string().min(1),
 });
 
-export const ChapterTitleForm = ({ initialData, courseId }: ChapterTitleFormProps) => {
+export const ChapterTitleForm = ({
+    initialData,
+    courseId,
+    chapterId,     
+}: ChapterTitleFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const toggleEdit = () => setIsEditing((current) => !current);
@@ -47,7 +51,7 @@ export const ChapterTitleForm = ({ initialData, courseId }: ChapterTitleFormProp
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            await axios.patch(`/api/courses/${courseId}`, values);
+            await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
             toast.success("Curso atualizado.");
             toggleEdit();
             router.refresh();
@@ -59,7 +63,7 @@ export const ChapterTitleForm = ({ initialData, courseId }: ChapterTitleFormProp
     return (
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
-                Titulo do Curso
+                Titulo do Capítulo
                 <Button onClick={toggleEdit} variant="ghost">
                     {isEditing ? (
                         <>Cancelar</>
@@ -90,7 +94,7 @@ export const ChapterTitleForm = ({ initialData, courseId }: ChapterTitleFormProp
                                     <FormControl>
                                         <Input 
                                             disabled={isSubmitting}
-                                            placeholder="ex. 'Introdução ao Desenvolvimento Web'"
+                                            placeholder="ex. 'Introdução ao curso'"
                                             {...field}
                                         />
                                     </FormControl>
