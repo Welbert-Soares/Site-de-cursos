@@ -7,7 +7,6 @@ async function main() {
         await database.category.createMany({
             data: [
                 { name: "Fotografia" },
-                { name: "Comunicação" },
                 { name: "Photoshop" },
                 { name: "Teatro" },
                 { name: "Musica" },
@@ -16,7 +15,7 @@ async function main() {
             ],
         });
 
-        console.log("Success seeding the database categories");
+        console.log("Success");
     } catch (error) {
         console.log("Error seeding the database categories", error);
     } finally {
