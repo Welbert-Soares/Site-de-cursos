@@ -39,19 +39,19 @@ export async function PATCH(
             return new NextResponse("Missing required fields", { status: 401 });
         }
 
-        const unpublishedCourse = await db.course.update({
+        const publishedCourse = await db.course.update({
             where: {
                 id: params.courseId,
                 userId,
             },
             data: {
-                isPublished: false,
+                isPublished: true,
             }
         });
 
-        return NextResponse.json(unpublishedCourse);
+        return NextResponse.json(publishedCourse);
     } catch (error) {
-        console.log("[COURSE_ID_UNPUBLIDH]", error);
+        console.log("[COURSE_ID_PUBLISH]", error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }

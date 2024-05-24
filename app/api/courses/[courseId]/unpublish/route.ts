@@ -26,20 +26,20 @@ export async function PATCH(
             return new NextResponse("Not Found", { status: 404 });
         }
 
-        const publishedCourse = await db.course.update({
+        const unpublishedCourse = await db.course.update({
             where: {
                 id: params.courseId,
                 userId,
             },
             data: {
-                isPublished: true,
+                isPublished: false,
             }
         });
 
-        return NextResponse.json(publishedCourse);
+        return NextResponse.json(unpublishedCourse);
 
     } catch (error) {
-        console.log("[COURSE_ID_PUBLIDH]", error);
+        console.log("[COURSE_ID_UNPUBLISH]", error);
         return new NextResponse("Internal Error", { status: 500 });
     }
 }
