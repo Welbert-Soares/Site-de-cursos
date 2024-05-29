@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 Nome do Seu Site de Vendas 🚀
 
-## Getting Started
+Bem-vindo ao repositório do nosso incrível site de vendas! Este projeto foi desenvolvido com muito amor usando [Next.js](https://nextjs.org/), [React](https://reactjs.org/), [Axios](https://axios-http.com/) e [Prisma](https://www.prisma.io/). Estamos usando o Neon Database com PostgreSQL para armazenar nossos dados e o site está hospedado na [Vercel](https://vercel.com/).
 
-First, run the development server:
+Você pode ver o site ao vivo [aqui](https://test-db-courses.vercel.app/).
+
+## 🎁 Recursos 🎁
+
+-   🛍️ Navegação de produtos: Navegue por nossa ampla gama de produtos!
+-   🛒 Carrinho de compras: Adicione seus produtos favoritos ao carrinho!
+-   💳 Checkout: Compre seus produtos com facilidade e segurança!
+-   🔐 Autenticação de usuário: Crie uma conta e faça login!
+-   🔍 Pesquisa de produtos: Encontre exatamente o que você está procurando!
+
+## 🚀 Começando 🚀
+
+Primeiro, clone o repositório para ter sua própria cópia local:
+
+```bash
+git clone https://github.com/yourusername/yourrepository.git
+```
+
+Em seguida, instale as dependências para garantir que tudo funcione perfeitamente:
+
+```bash
+npm install
+# ou
+yarn install
+```
+
+Agora, você pode iniciar o servidor de desenvolvimento e começar a codificar:
 
 ```bash
 npm run dev
-# or
+# ou
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado. Prepare-se para ficar impressionado! 🎉
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🤝 Contribuindo 🤝
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Contribuições são mais do que bem-vindas! Vamos construir algo incrível juntos! Por favor, leia as [diretrizes de contribuição](CONTRIBUTING.md) antes de enviar uma pull request.
 
-## Learn More
+## 📜 Licença 📜
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
